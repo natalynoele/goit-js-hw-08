@@ -16,6 +16,13 @@ function onFormTextFieldInput() {
 
 function onFormBtnSubmit(event) {
   event.preventDefault();
+  const parsedData = load(LOCALSTORAGE_KEY);
+  if (parsedData === undefined) {
+    alert('Form fields cannot be empty. Please fill out the form');
+    return;
+  } else {
+    console.log('Form data :>> ', parsedData);
+  }  
   email.value = '';
   message.value = '';
   remove(LOCALSTORAGE_KEY);
@@ -24,10 +31,11 @@ function onFormBtnSubmit(event) {
 function fillFormFromLocalStorage() {
   const parsedData = load(LOCALSTORAGE_KEY);
   if (parsedData === undefined) {
-    return;  
+    return;
   } else {
-    email.value = parsedData.email;
-    message.value = parsedData.message;
+    Object.entries(parsedData).forEach(
+      ([name, value]) => (form.elements[name].value = value)
+    );
   }
 }
 
