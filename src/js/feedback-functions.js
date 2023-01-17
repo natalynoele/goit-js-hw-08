@@ -20,12 +20,16 @@ function onFormBtnSubmit(event) {
   if (parsedData === undefined) {
     alert('Form fields cannot be empty. Please fill out the form');
     return;
+  } else if (email.value === '' || message.value === '') {
+    alert('Please fill in all the fields of the form');
+    insertFormData(parsedData);
+    console.log(parsedData);
   } else {
     console.log('Form data :>> ', parsedData);
-  }  
-  email.value = '';
-  message.value = '';
-  remove(LOCALSTORAGE_KEY);
+    email.value = '';
+    message.value = '';
+    remove(LOCALSTORAGE_KEY);
+  }
 }
 
 function fillFormFromLocalStorage() {
@@ -33,10 +37,14 @@ function fillFormFromLocalStorage() {
   if (parsedData === undefined) {
     return;
   } else {
-    Object.entries(parsedData).forEach(
-      ([name, value]) => (form.elements[name].value = value)
-    );
+    insertFormData(parsedData);
   }
+}
+
+function insertFormData(formData) {
+  Object.entries(formData).forEach(
+    ([name, value]) => (form.elements[name].value = value)
+  );
 }
 
 export {
